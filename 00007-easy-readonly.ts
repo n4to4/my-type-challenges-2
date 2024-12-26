@@ -13,4 +13,8 @@ interface Todo1 {
 }
 
 // ============= Your Code Here =============
-type MyReadonly<T> = any;
+type MyReadonly<T> = {
+  readonly [k in keyof T]: T[k];
+};
+
+type X1 = MyReadonly<Todo1>;
