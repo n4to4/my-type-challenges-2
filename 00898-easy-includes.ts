@@ -25,9 +25,9 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type IsEqual<T, U> = (<G>(x: G) => G extends T ? 1 : 2) extends <G>(
-  x: G
-) => G extends U ? 1 : 2
+type IsEqual<T, U> = (<G>() => G extends T ? 1 : 2) extends <G>() => G extends U
+  ? 1
+  : 2
   ? true
   : false;
 
