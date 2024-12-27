@@ -10,4 +10,6 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type MyExclude<T, U> = any;
+type MyExclude<T, U> = T extends U ? never : T;
+
+type X1 = MyExclude<string | number | (() => void), Function>;
