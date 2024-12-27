@@ -11,3 +11,6 @@ type error = If<null, "a", "b">;
 
 // ============= Your Code Here =============
 type If<C extends boolean, T, F> = C extends true ? T : F;
+
+type X1 = If<never, 1, 2>;
+type X2 = never extends boolean ? 1 : 2;
