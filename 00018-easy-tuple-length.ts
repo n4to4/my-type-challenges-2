@@ -20,4 +20,13 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Length<T> = any;
+type Length<
+  T extends readonly any[],
+  Len extends any[] = []
+> = T extends readonly [any, ...infer Tail]
+  ? Length<Tail, [...Len, any]>
+  : Len["length"];
+
+const C1 = [1, 2, 3] as const;
+type X0 = typeof C1;
+type X1 = Length<typeof C1>;
