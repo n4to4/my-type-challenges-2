@@ -25,11 +25,17 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
+type IsEqual<T, U> = (<G>(x: G) => G extends T ? 1 : 2) extends <G>(
+  x: G
+) => G extends U ? 1 : 2
+  ? true
+  : false;
+
 type Includes<T extends readonly any[], U> = T extends [
   infer Head,
   ...infer Tail
 ]
-  ? Equal<Head, U> extends true
+  ? IsEqual<Head, U> extends true
     ? true
     : Includes<Tail, U>
   : false;
