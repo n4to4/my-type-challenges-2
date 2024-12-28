@@ -30,4 +30,9 @@ interface Expected {
 }
 
 // ============= Your Code Here =============
-type MyReadonly2<T, K> = any;
+type MyReadonly2<T, K extends keyof T = keyof T> = Omit<
+  Omit<T, K> & Readonly<Pick<T, K>>,
+  never
+>;
+
+type X1 = MyReadonly2<Todo1, "title" | "description">;
