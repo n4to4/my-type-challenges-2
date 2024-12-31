@@ -7,4 +7,7 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type TupleToUnion<T extends readonly any[]> = T[number];
+//type TupleToUnion<T extends readonly any[]> = T[number];
+type TupleToUnion<T> = T extends Array<infer E> ? E : never;
+
+type X1 = TupleToUnion<[123, "456", true]>;
