@@ -57,4 +57,19 @@ type Expected1 = {
 type Expected2 = { readonly a: string } | { readonly b: number };
 
 // ============= Your Code Here =============
-type DeepReadonly<T> = any;
+type NonObject = string | number | boolean | Function;
+type DeepReadonly<T> = {
+  readonly [k in keyof T]: T[k] extends any[]
+    ? ArrayDeepReadonly<T[k]>
+    : T[k] extends NonObject
+    ? T[k]
+    : DeepReadonly<T[k]>;
+};
+type ArrayDeepReadonly<T extends any[]> = T extends [infer Head, ...infer Tail]
+  ? readonly [DeepReadonly<Head>, ...ArrayDeepReadonly<Tail>]
+  : [];
+
+type Z1 = DeepReadonly<X1>;
+type Z2 = (() => 1) extends object ? 1 : 2;
+type Z3 = DeepReadonly<{ k1: ["foo", boolean, { k2: ["bar"] }] }>;
+type Z4 = readonly [1, 2, 3];
