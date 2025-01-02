@@ -40,3 +40,8 @@ declare function PromiseAll<T extends any[]>(
 ): Promise<{
   [P in keyof T]: Awaited<T[P]>;
 }>;
+
+type F1<T extends any[]> = {
+  [P in keyof T]: P;
+};
+type X1 = F1<[1, 2, 3, "abc", true]>;
