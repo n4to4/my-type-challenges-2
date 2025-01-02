@@ -20,6 +20,9 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type LookUp<U, T> = U extends { type: T } ? U : never;
+// type LookUp<U, T> = U extends { type: T } ? U : never;
+type LookUp<U, T extends string> = {
+  [K in T]: U extends { type: T } ? U : never;
+}[T];
 
-type X1 = LookUp<Animal, "dog" | "cat">;
+type X1 = LookUp<Animal, "dog">;
