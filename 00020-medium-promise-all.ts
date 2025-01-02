@@ -14,4 +14,19 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-declare function PromiseAll(values: any): any;
+declare function PromiseAll<T extends any[]>(values: T): ResolvePromises<T>;
+
+type ResolvePromises<T extends any[], U extends any[] = []> = T extends [
+  infer Head,
+  ...infer Tail
+]
+  ? Head extends PromiseLike<infer A>
+    ? ResolvePromises<Tail, [...U, A]>
+    : ResolvePromises<Tail, [...U, Head]>
+  : Promise<U>;
+
+const p = Promise.resolve(3);
+type X1 = typeof p;
+type X2 = X1 extends PromiseLike<any> ? 1 : 2;
+
+type X3 = ResolvePromises<[1, 2, Promise<number>]>;
