@@ -14,6 +14,7 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
+/*
 declare function PromiseAll<T extends any[]>(values: T): ResolvePromises<T>;
 
 type ResolvePromises<T extends any[], U extends any[] = []> = T extends [
@@ -30,3 +31,12 @@ type X1 = typeof p;
 type X2 = X1 extends PromiseLike<any> ? 1 : 2;
 
 type X3 = ResolvePromises<[1, 2, Promise<number>]>;
+*/
+
+type Awaited<T> = T extends Promise<infer R> ? Awaited<R> : T;
+
+declare function PromiseAll<T extends any[]>(
+  values: readonly [...T]
+): Promise<{
+  [P in keyof T]: Awaited<T[P]>;
+}>;
