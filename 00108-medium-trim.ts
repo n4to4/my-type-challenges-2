@@ -14,8 +14,8 @@ type cases = [
 
 // ============= Your Code Here =============
 type Space = " " | "\t" | "\n";
-type Trim<S extends string> = S extends `${Space}${infer Rest1}`
-  ? Trim<Rest1>
-  : S extends `${infer Rest2}${Space}`
-  ? Trim<Rest2>
+type Trim<S extends string> = S extends
+  | `${Space}${infer Rest}`
+  | `${infer Rest}${Space}`
+  ? Trim<Rest>
   : S;
