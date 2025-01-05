@@ -9,4 +9,11 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type LengthOfString<S extends string> = any;
+type LengthOfString<
+  S extends string,
+  Idx extends any[] = []
+> = S extends `${string}${infer Rest extends string}`
+  ? LengthOfString<Rest, [...Idx, any]>
+  : Idx["length"];
+
+type X1 = LengthOfString<"">;
