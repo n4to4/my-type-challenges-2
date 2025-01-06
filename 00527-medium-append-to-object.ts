@@ -45,4 +45,11 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type AppendToObject<T, U, V> = any;
+type AppendToObject<T, U extends PropertyKey, V> = Omit<
+  T & {
+    [k in U]: V;
+  },
+  never
+>;
+
+type X1 = AppendToObject<test1, "home", boolean>;
