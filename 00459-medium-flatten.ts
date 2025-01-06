@@ -18,4 +18,13 @@ type cases = [
 type error = Flatten<"1">;
 
 // ============= Your Code Here =============
-type Flatten = any;
+type Flatten<T extends any[], R extends any[] = []> = T extends [
+  infer Head,
+  ...infer Tail
+]
+  ? Head extends any[]
+    ? Flatten<[...Head, ...Tail], R>
+    : Flatten<[...Tail], [...R, Head]>
+  : R;
+
+type X1 = Flatten<[1, 2, 3]>;
