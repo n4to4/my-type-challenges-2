@@ -15,5 +15,6 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Absolute<T extends number | string | bigint> =
-  `${T}` extends `-${infer N1 extends string}` ? N1 : `${T}`;
+type Absolute<T extends number | string | bigint> = `${T}` extends `-${infer N}`
+  ? N
+  : `${T}`;
