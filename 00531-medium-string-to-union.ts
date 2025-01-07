@@ -14,4 +14,7 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type StringToUnion<T extends string> = any;
+type StringToUnion<
+  T extends string,
+  R = never
+> = T extends `${infer Head}${infer Rest}` ? StringToUnion<Rest, R | Head> : R;
