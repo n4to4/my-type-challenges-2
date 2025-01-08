@@ -23,6 +23,7 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Diff<O1, O2> = Omit<Omit<O1, keyof O2> & Omit<O2, keyof O1>, never>;
+type Diff1<O1, O2> = Omit<Omit<O1, keyof O2> & Omit<O2, keyof O1>, never>;
+type Diff<O, O1> = Omit<O & O1, keyof (O | O1)>;
 
 type X1 = Diff<Foo, Bar>;
