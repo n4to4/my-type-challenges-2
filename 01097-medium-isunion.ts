@@ -19,7 +19,7 @@ type cases = [
 
 // ============= Your Code Here =============
 type IsUnionImpl<T, C extends T = T> = (
-  T extends T ? (C extends T ? true : unknown) : never
+  T extends T ? (C extends T ? true : false) : false
 ) extends true
   ? false
   : true;
