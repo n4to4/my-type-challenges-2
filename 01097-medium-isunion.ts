@@ -19,8 +19,16 @@ type cases = [
 
 // ============= Your Code Here =============
 type IsUnionImpl<T, C extends T = T> = (
-  T extends T ? (C extends T ? true : false) : false
+  T extends T ? (C extends T ? true : unknown) : never
 ) extends true
   ? false
   : true;
 type IsUnion<T> = IsUnionImpl<T>;
+
+type IsUnionImplTest<T, C extends T = T> = T extends T
+  ? C extends T
+    ? true
+    : false
+  : false;
+
+type X1 = IsUnionImplTest<string | number>;
