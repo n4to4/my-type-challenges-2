@@ -29,6 +29,7 @@ type Falsy = 0 | "" | false | undefined | null | [] | { [key: string]: never };
 type AnyOf<T extends readonly any[]> = T[number] extends Falsy ? false : true;
 
 type X1 = AnyOf<[0, "", false, {}, undefined, null]>;
-type EmptyObject<T> = keyof T extends never ? 1 : 2;
+// type EmptyObject<T> = keyof T extends never ? 1 : 2;
+type EmptyObject<T> = T extends Record<string, never> ? 1 : 2;
 type X2 = EmptyObject<{}>;
 type X3 = EmptyObject<{ key: 42 }>;
