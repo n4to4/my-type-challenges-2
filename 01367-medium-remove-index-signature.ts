@@ -31,4 +31,8 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type RemoveIndexSignature<T> = any;
+type RemoveIndexSignature<T, P = PropertyKey> = {
+  [K in keyof T as P extends K ? never : K extends P ? K : never]: T[K];
+};
+
+type X1 = RemoveIndexSignature<Foo>;
