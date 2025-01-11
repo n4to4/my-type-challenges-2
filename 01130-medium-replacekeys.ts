@@ -64,4 +64,10 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type ReplaceKeys<U, T, Y> = any;
+type ReplaceKeys<
+  T,
+  K extends PropertyKey,
+  R extends Record<PropertyKey, any>
+> = {
+  [p in keyof T]: p extends K ? (p extends keyof R ? R[p] : never) : T[p];
+};
