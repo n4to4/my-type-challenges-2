@@ -20,4 +20,6 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type PickByType<T, U> = any;
+type PickByType<T, U> = {
+  [k in keyof T as T[k] extends U ? k : never]: T[k];
+};
