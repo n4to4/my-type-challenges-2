@@ -12,4 +12,43 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type MinusOne<T extends number> = any;
+type ParseInt<T extends string> = T extends `${infer Digit extends number}`
+  ? Digit
+  : never;
+
+type ReverseString<S extends string> = S extends `${infer First}${infer Rest}`
+  ? `${ReverseString<Rest>}${First}`
+  : "";
+
+type RemoveLeadingZeros<S extends string> = S extends "0"
+  ? S
+  : S extends `${"0"}${infer R}`
+  ? RemoveLeadingZeros<R>
+  : S;
+
+type InternalMinusOne<S extends string> =
+  S extends `${infer Digit extends number}${infer Rest}`
+    ? Digit extends 0
+      ? `9${InternalMinusOne<Rest>}`
+      : `${[9, 0, 1, 2, 3, 4, 5, 6, 7, 8][Digit]}${Rest}`
+    : never;
+
+type InternalPlusOne<S extends string> = S extends "9"
+  ? "01"
+  : S extends `${infer Digit extends number}${infer Rest}`
+  ? Digit extends 9
+    ? `0${InternalPlusOne<Rest>}`
+    : `${[1, 2, 3, 4, 5, 6, 7, 8, 9][Digit]}${Rest}`
+  : never;
+
+type PutSign<S extends string> = `-${S}`;
+
+type MinusOne<T extends number> = T extends 0
+  ? -1
+  : `${T}` extends `-${infer Abs}`
+  ? ParseInt<PutSign<ReverseString<InternalPlusOne<ReverseString<`${Abs}`>>>>>
+  : ParseInt<
+      RemoveLeadingZeros<ReverseString<InternalMinusOne<ReverseString<`${T}`>>>>
+    >;
+
+type test = MinusOne<9007199254740992>;
