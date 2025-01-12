@@ -30,4 +30,17 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type PercentageParser<A extends string> = any;
+type PercentageParser<T extends string> = T extends `${infer Sign extends
+  | "+"
+  | "-"}${infer Rest}`
+  ? [Sign, ...ParseNumber<Rest>]
+  : ["", ...ParseNumber<T>];
+
+type ParseNumber<
+  T extends string,
+  Number extends string = ""
+> = T extends `${infer N extends number}${infer Rest}`
+  ? ParseNumber<Rest, `${Number}${N}`>
+  : [Number, T];
+
+type X1 = PercentageParser<"+100%">;
