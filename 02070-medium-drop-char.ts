@@ -13,4 +13,9 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type DropChar<S, C> = any;
+type DropChar<
+  T extends string,
+  C extends string
+> = T extends `${infer Pre}${C}${infer Post}`
+  ? DropChar<`${Pre}${Post}`, C>
+  : T;
