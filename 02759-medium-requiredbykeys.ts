@@ -28,4 +28,9 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type RequiredByKeys<T, K> = any;
+type RequiredByKeys<T, K extends keyof T = keyof T> = Omit<
+  Omit<T, K> & {
+    [k in K]-?: T[k];
+  },
+  never
+>;
