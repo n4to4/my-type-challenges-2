@@ -28,4 +28,9 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type PartialByKeys<T, K> = any;
+type PartialByKeys<T, K extends keyof T = keyof T> = Omit<
+  Omit<T, K> & {
+    [k in K]?: T[k];
+  },
+  never
+>;
