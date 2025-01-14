@@ -25,4 +25,6 @@ type errors = [
 ];
 
 // ============= Your Code Here =============
-type Mutable<T> = any;
+type Mutable<T extends object> = {
+  -readonly [k in keyof T]: T[k];
+};
