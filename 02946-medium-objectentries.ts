@@ -26,4 +26,15 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type ObjectEntries<T> = any;
+type ObjectEntries<T, U = Required<T>> = {
+  [k in keyof U]: [
+    k,
+    [U[k]] extends [never] ? (k extends keyof T ? T[k] : never) : U[k]
+  ];
+}[keyof U];
+
+type X1 = ObjectEntries<Model>;
+type X2 = ObjectEntries<Partial<Model>>;
+type X3 = ObjectEntries<{ key?: undefined }>;
+type X4 = Required<{ key?: undefined }>;
+type R1 = Equal<X1, "name" | "age" | "locations">;
