@@ -14,4 +14,11 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type TupleToNestedObject<T, U> = any;
+type TupleToNestedObject<T extends readonly string[], U> = T extends [
+  infer Head extends string,
+  ...infer Tail extends string[]
+]
+  ? { [k in Head]: TupleToNestedObject<Tail, U> }
+  : U;
+
+type X1 = TupleToNestedObject<["a", "b", "c"], boolean>;
