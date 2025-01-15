@@ -15,4 +15,6 @@ type errors = [
 ];
 
 // ============= Your Code Here =============
-type Reverse<T> = any;
+type Reverse<T extends any[]> = T extends [infer Head, ...infer Tail]
+  ? [...Reverse<Tail>, Head]
+  : [];
