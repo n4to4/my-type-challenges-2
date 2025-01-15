@@ -26,11 +26,15 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type ObjectEntries<T, U = Required<T>> = {
+type ObjectEntries1<T, U = Required<T>> = {
   [k in keyof U]: [
     k,
     [U[k]] extends [never] ? (k extends keyof T ? T[k] : never) : U[k]
   ];
+}[keyof U];
+
+type ObjectEntries<T, U = Required<T>> = {
+  [K in keyof U]: [K, U[K] extends never ? undefined : U[K]];
 }[keyof U];
 
 type X1 = ObjectEntries<Model>;
