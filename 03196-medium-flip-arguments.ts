@@ -26,4 +26,12 @@ type errors = [
 ];
 
 // ============= Your Code Here =============
-type FlipArguments<T> = any;
+type Reverse<T extends any[]> = T extends [infer Head, ...infer Tail]
+  ? [...Reverse<Tail>, Head]
+  : [];
+
+type FlipArguments<T extends Function> = T extends (
+  ...args: infer Args
+) => infer Ret
+  ? (...args: Reverse<Args>) => Ret
+  : never;
