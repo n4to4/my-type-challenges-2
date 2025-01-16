@@ -35,3 +35,5 @@ type FlipArguments<T extends Function> = T extends (
 ) => infer Ret
   ? (...args: Reverse<Args>) => Ret
   : never;
+
+type X1 = FlipArguments<(arg0: string, arg1: number, arg2: boolean) => void>;
