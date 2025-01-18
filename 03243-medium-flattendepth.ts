@@ -23,7 +23,7 @@ type LengthMinusOneEqual<T extends any[], Depth extends number> = T extends [
     : false
   : false;
 
-type FlattenDepth<
+type FlattenDepth1<
   T extends any[],
   Depth extends number = 1,
   D extends any[] = []
@@ -32,11 +32,23 @@ type FlattenDepth<
   : T extends [infer Head, ...infer Tail]
   ? Head extends any[]
     ? [
-        ...FlattenDepth<Head, Depth, [...D, any]>,
-        ...FlattenDepth<Tail, Depth, [...D, any]>
+        ...FlattenDepth1<Head, Depth, [...D, any]>,
+        ...FlattenDepth1<Tail, Depth, [...D, any]>
       ]
-    : [Head, ...FlattenDepth<Tail, Depth, D>]
+    : [Head, ...FlattenDepth1<Tail, Depth, D>]
   : [];
+
+type FlattenDepth<
+  T extends any[],
+  S extends number = 1,
+  U extends any[] = []
+> = U["length"] extends S
+  ? T
+  : T extends [infer F, ...infer R]
+  ? F extends any[]
+    ? [...FlattenDepth<F, S, [...U, 1]>, ...FlattenDepth<R, S, U>]
+    : [F, ...FlattenDepth<R, S, U>]
+  : T;
 
 type X1 = FlattenDepth<[1, [2]]>;
 type X2 = FlattenDepth<[1, 2, [3, 4], [[[5]]]], 2>;
