@@ -18,7 +18,7 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type BEM<
+type BEM1<
   B extends string,
   E extends string[],
   M extends string[]
@@ -27,6 +27,14 @@ type BEM<
   : M extends []
   ? `${B}__${E[number]}`
   : `${B}__${E[number]}--${M[number]}`;
+
+type BEM<
+  B extends string,
+  E extends string[],
+  M extends string[]
+> = `${B}${E extends [] ? "" : `__${E[number]}`}${M extends []
+  ? ""
+  : `--${M[number]}`}`;
 
 type X1 = BEM<"btn", ["price"], []>;
 type X2 = BEM<"btn", ["price"], ["warning", "success"]>;
