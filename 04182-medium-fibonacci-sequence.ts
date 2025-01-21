@@ -9,4 +9,16 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Fibonacci<T extends number> = any;
+type Fibonacci<T extends number> = T extends 1 | 2
+  ? 1
+  : FibHelper<T, [any, any, any], [any], [any]>;
+type FibHelper<
+  T extends number,
+  Idx extends any[],
+  Prev2 extends any[],
+  Prev1 extends any[]
+> = Idx["length"] extends T
+  ? [...Prev2, ...Prev1]["length"]
+  : FibHelper<T, [...Idx, any], Prev1, [...Prev2, ...Prev1]>;
+
+type X1 = Fibonacci<5>;
