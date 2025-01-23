@@ -10,4 +10,8 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Zip<T, U> = any;
+type Zip<T, U> = T extends [infer THead, ...infer TTail]
+  ? U extends [infer UHead, ...infer UTail]
+    ? [[THead, UHead], ...Zip<TTail, UTail>]
+    : []
+  : [];
