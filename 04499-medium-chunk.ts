@@ -11,4 +11,17 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Chunk = any;
+type Chunk<
+  T extends any[],
+  N extends number,
+  Acc extends any[] = [],
+  R extends any[] = []
+> = Acc["length"] extends N
+  ? Chunk<T, N, [], [...R, Acc]>
+  : T extends [infer Head, ...infer Tail]
+  ? Chunk<Tail, N, [...Acc, Head], R>
+  : Acc extends []
+  ? R
+  : [...R, Acc];
+
+type X1 = Chunk<[1, 2, 3], 1>;
