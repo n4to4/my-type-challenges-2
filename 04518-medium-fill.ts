@@ -20,5 +20,17 @@ type Fill<
   T extends unknown[],
   N,
   Start extends number = 0,
-  End extends number = T["length"]
-> = any;
+  End extends number = T["length"],
+  Idx extends unknown[] = [],
+  Filling extends boolean = false
+> = Start extends End
+  ? T
+  : T extends [infer Head, ...infer Tail]
+  ? Filling extends true
+    ? Idx["length"] extends End
+      ? [Head, ...Fill<Tail, N, Start, End, [...Idx, any], false>]
+      : [N, ...Fill<Tail, N, Start, End, [...Idx, any], true>]
+    : Idx["length"] extends Start
+    ? Fill<T, N, Start, End, Idx, true>
+    : [Head, ...Fill<Tail, N, Start, End, [...Idx, any], false>]
+  : [];
