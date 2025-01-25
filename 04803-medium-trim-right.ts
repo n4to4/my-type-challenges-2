@@ -12,4 +12,6 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type TrimRight<S extends string> = any;
+type TrimRight<T extends string> = T extends `${infer Rest}${" " | "\t" | "\n"}`
+  ? TrimRight<Rest>
+  : T;
