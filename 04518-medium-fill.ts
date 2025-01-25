@@ -16,7 +16,7 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Fill<
+type Fill1<
   T extends unknown[],
   N,
   Start extends number = 0,
@@ -28,9 +28,24 @@ type Fill<
   : T extends [infer Head, ...infer Tail]
   ? Filling extends true
     ? Idx["length"] extends End
-      ? [Head, ...Fill<Tail, N, Start, End, [...Idx, any], false>]
-      : [N, ...Fill<Tail, N, Start, End, [...Idx, any], true>]
+      ? [Head, ...Fill1<Tail, N, Start, End, [...Idx, any], false>]
+      : [N, ...Fill1<Tail, N, Start, End, [...Idx, any], true>]
     : Idx["length"] extends Start
-    ? Fill<T, N, Start, End, Idx, true>
-    : [Head, ...Fill<Tail, N, Start, End, [...Idx, any], false>]
+    ? Fill1<T, N, Start, End, Idx, true>
+    : [Head, ...Fill1<Tail, N, Start, End, [...Idx, any], false>]
+  : [];
+
+type Fill<
+  T extends unknown[],
+  N,
+  Start extends number = 0,
+  End extends number = T["length"],
+  Idx extends unknown[] = [],
+  Filling extends boolean = Idx["length"] extends Start ? true : false
+> = Idx["length"] extends End
+  ? T
+  : T extends [infer H, ...infer Tail]
+  ? Filling extends true
+    ? [N, ...Fill<Tail, N, Start, End, [...Idx, any], true>]
+    : [H, ...Fill<Tail, N, Start, End, [...Idx, any]>]
   : [];
