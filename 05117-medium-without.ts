@@ -8,4 +8,14 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Without<T, U> = any;
+type ToUnion<T extends unknown> = T extends unknown[] ? T[number] : T;
+
+type Without<
+  T extends unknown[],
+  U extends unknown,
+  UUnion = ToUnion<U>
+> = T extends [infer Head, ...infer Rest]
+  ? Head extends UUnion
+    ? Without<Rest, U>
+    : [Head, ...Without<Rest, U>]
+  : [];
