@@ -14,16 +14,11 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Trunc<
-  T extends number | string,
-  Sign extends string = ""
-> = `${T}` extends `-${infer N1}`
-  ? Trunc<N1, "-">
-  : `${T}` extends `.${infer N2}`
-  ? Trunc<`0.${N2}`, Sign>
-  : `${T}` extends `${infer N extends number}.${number}`
-  ? `${Sign}${N}`
-  : `${Sign}${T}`;
+type Trunc<T extends number | string> = `${T}` extends `.${infer N0}`
+  ? Trunc<`0.${N0}`>
+  : `${T}` extends `${infer N1 extends number}.${number}`
+  ? `${N1}`
+  : `${T}`;
 
 type X0 = Trunc<0.1>;
 type X1 = Trunc<-5.1>;
