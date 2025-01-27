@@ -12,4 +12,20 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type IndexOf<T, U> = any;
+type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <G>() => G extends B
+  ? 1
+  : 2
+  ? true
+  : false;
+
+type IndexOf<T extends readonly any[], U, Idx extends any[] = []> = T extends [
+  infer A,
+  ...infer B
+]
+  ? IsEqual<A, U> extends true
+    ? Idx["length"]
+    : IndexOf<B, U, [...Idx, any]>
+  : -1;
+
+type X1 = IndexOf<[1, 2, 3], 2>;
+type X2 = IsEqual<string, "foo">;
