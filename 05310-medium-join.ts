@@ -10,4 +10,10 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Join<T, U> = any;
+type Join<
+  T,
+  U extends string | number,
+  IsFirst extends boolean = true
+> = T extends [infer A extends string | number, ...infer B]
+  ? `${IsFirst extends true ? "" : U}${A}${Join<B, U, false>}`
+  : "";
