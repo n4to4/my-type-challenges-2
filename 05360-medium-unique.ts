@@ -20,4 +20,25 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Unique<T> = any;
+type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <G>() => G extends B
+  ? 1
+  : 2
+  ? true
+  : false;
+
+type HasSeen<T, Seen extends any[]> = Seen extends [infer Head, ...infer Tail]
+  ? IsEqual<T, Head> extends true
+    ? true
+    : HasSeen<T, Tail>
+  : false;
+
+type Unique<T extends any[], Seen extends any[] = []> = T extends [
+  infer Head,
+  ...infer Tail
+]
+  ? HasSeen<Head, Seen> extends true
+    ? Unique<Tail, Seen>
+    : [Head, ...Unique<Tail, [...Seen, Head]>]
+  : [];
+
+type X1 = Unique<[1, "a", 2, "b", 2, "a"]>;
