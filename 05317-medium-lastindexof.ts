@@ -10,4 +10,16 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type LastIndexOf<T, U> = any;
+type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <G>() => G extends B
+  ? 1
+  : 2
+  ? true
+  : false;
+
+type LastIndexOf<T extends any[], U> = T extends [...infer Left, infer Right]
+  ? IsEqual<Right, U> extends true
+    ? Left["length"]
+    : LastIndexOf<Left, U>
+  : -1;
+
+type X1 = LastIndexOf<[1, 2, 3, 4], 3>;
