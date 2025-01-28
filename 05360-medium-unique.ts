@@ -42,3 +42,4 @@ type Unique<T extends any[], Seen extends any[] = []> = T extends [
   : [];
 
 type X1 = Unique<[1, "a", 2, "b", 2, "a"]>;
+type X2 = Unique<[string, number, 1, "a", 1, string, 2, "b", 2, number]>;
