@@ -65,4 +65,20 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type MapTypes<T, R> = any;
+type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <G>() => G extends B
+  ? 1
+  : 2
+  ? true
+  : false;
+type MapTypes<T, R extends { mapFrom: any; mapTo: any }> = {
+  [k in keyof T]: IsEqual<T[k], R["mapFrom"]> extends true ? R["mapTo"] : T[k];
+};
+
+type X1 = MapTypes<
+  { date: string },
+  { mapFrom: string; mapTo: Date } | { mapFrom: string; mapTo: null }
+>;
+type X2 = MapTypes<
+  { name: string; date: Date },
+  { mapFrom: string; mapTo: boolean } | { mapFrom: Date; mapTo: string }
+>;
