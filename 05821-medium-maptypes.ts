@@ -65,13 +65,21 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <G>() => G extends B
-  ? 1
-  : 2
-  ? true
-  : false;
+// type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <G>() => G extends B
+//   ? 1
+//   : 2
+//   ? true
+//   : false;
+// type MapTypes<T, R extends { mapFrom: any; mapTo: any }> = {
+//   [k in keyof T]: IsEqual<T[k], R["mapFrom"]> extends true ? R["mapTo"] : T[k];
+// };
+
 type MapTypes<T, R extends { mapFrom: any; mapTo: any }> = {
-  [k in keyof T]: IsEqual<T[k], R["mapFrom"]> extends true ? R["mapTo"] : T[k];
+  [K in keyof T]: T[K] extends R["mapFrom"]
+    ? R extends { mapFrom: T[K] }
+      ? R["mapTo"]
+      : never
+    : T[K];
 };
 
 type X1 = MapTypes<
