@@ -25,4 +25,24 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type NumberRange<L, H> = any;
+type ArrToUnion<T extends any[]> = T extends [infer N, ...infer Rest]
+  ? N | ArrToUnion<Rest>
+  : never;
+
+type NumberRange<
+  L extends number,
+  H extends number,
+  Idx extends any[] = [],
+  Union = never,
+  InRange extends boolean = false
+> = InRange extends true
+  ? Idx["length"] extends H
+    ? Union | Idx["length"]
+    : NumberRange<L, H, [...Idx, any], Union | Idx["length"], true>
+  : Idx["length"] extends L
+  ? NumberRange<L, H, Idx, Union, true>
+  : NumberRange<L, H, [...Idx, any], Union, false>;
+
+type X0 = ArrToUnion<[0, 2, 3, 4, 1, 5, 10, 20, 30]>;
+type X1 = NumberRange<2, 9>;
+type X2 = NumberRange<0, 3>;
