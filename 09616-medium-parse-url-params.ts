@@ -15,9 +15,9 @@ type Split<T extends string> = T extends `${infer Head}/${infer Rest}`
   ? Head | Split<Rest>
   : T;
 
-type ParseUrlParams<T extends string, S = Split<T>> = T extends ""
-  ? never
-  : S extends `:${infer P}`
+type ParseUrlParams<T extends string> = T extends "" ? never : Helper<T>;
+
+type Helper<T extends string, S = Split<T>> = S extends `:${infer P}`
   ? P
   : never;
 
