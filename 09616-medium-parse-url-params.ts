@@ -11,4 +11,16 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type ParseUrlParams<T> = any;
+type Split<T extends string> = T extends `${infer Head}/${infer Rest}`
+  ? Head | Split<Rest>
+  : T;
+
+type ParseUrlParams<T extends string, S = Split<T>> = T extends ""
+  ? never
+  : S extends `:${infer P}`
+  ? P
+  : never;
+
+type X0 = Split<"posts/:id/:user">;
+type X1 = Split<"">;
+type X2 = ParseUrlParams<"posts/:id/:user">;
